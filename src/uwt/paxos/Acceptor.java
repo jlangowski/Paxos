@@ -12,12 +12,12 @@ public class Acceptor {
 			int pid = request.getInt("proposalId");
 			String response;
 			if (pid < proposal_id)
-				response = "{ack:false, proposalId:" + proposal_id +"}";
+				response = "{\"ack\":false, \"proposalId\":" + proposal_id +"}";
 			else {
 				proposal_id = pid;
 				promise_out = true;
 				lock = request.getInt("lock");
-				response = "{ack:true, proposalid:" + proposal_id + ", lock:" + lock + "}" ;
+				response = "{\"ack\":true, \"proposalid\":" + proposal_id + ", \"lock\":" + lock + "}" ;
 				
 				
 			}
@@ -29,12 +29,27 @@ public class Acceptor {
 			int lock = request.getInt("lock");
 			String response;
 			if (pid < proposal_id || this.lock != lock) {
-				response = "{ack:false, proposalId:" + proposal_id +"}";
+				response = "{\"ack\":false, \"proposalId\":" + proposal_id +"}";
 			} else {
-				response = "{ack:true, proposalid:" + proposal_id + ", lock:" + lock + "}" ;
+				response = "{\"ack\":true, \"proposalid\":" + proposal_id + ", \"lock\":" + lock + "}" ;
 			}
 			
 			return response;
+		}
+		
+		public String confirm(JSONObject request) throws JSONException {
+			int pid = request.getInt("proposalId");
+			int lock = request.getInt("lock");
+			String response;
+			if (pid < proposal_id || this.lock != lock) {
+				response = "{\"ack\":false, \"proposalId\":" + proposal_id +"}";
+			} else {
+				promise_out = false;
+				response = "{\"ack\":true, \"proposalid\":" + proposal_id + ", \"lock\":" + lock + "}" ;
+			}
+			
+			return response;
+			
 		}
 
 }
