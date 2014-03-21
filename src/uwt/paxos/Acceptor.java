@@ -78,14 +78,14 @@ public class Acceptor {
 				unlock.append("proposalId", proposal_id);
 				unlock.append("clientId", clientId);
 				for (String s: ips) {
-					this.out.println("sending lock request to learner on ip" + s + " lock: " + lock);
+					this.out.println("sending lock request to learner on ip " + s + " lock: " + lock);
 					try {
-						Socket soc = new Socket(s, 2003);
+						Socket soc = new Socket(s, 9003);
 						ObjectOutputStream out = new ObjectOutputStream(soc.getOutputStream());
 						out.writeObject(unlock);
 						ObjectInputStream in = new ObjectInputStream(soc.getInputStream());
 						JSONObject res = (JSONObject) in.readObject();
-						this.out.println("response from learner on ip" + s + " locked lock: " + res.getInt("lock"));
+						this.out.println("response from learner on ip " + s + " locked lock: " + res.getInt("lock"));
 						out.close();
 						soc.close();
 					} catch (UnknownHostException e) {
@@ -127,7 +127,7 @@ public class Acceptor {
 			System.out.println(acc.ips);
 			while (true) {
 				try  { 
-					    ServerSocket serverSocket = new ServerSocket(2002);
+					    ServerSocket serverSocket = new ServerSocket(9002);
 					    Socket clientSocket = serverSocket.accept();
 					    ObjectInputStream is = new ObjectInputStream(clientSocket.getInputStream());
 					    JSONObject request = (JSONObject) is.readObject();

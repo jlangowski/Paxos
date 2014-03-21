@@ -83,7 +83,7 @@ public class Learner {
 		System.out.println(l.ips);
 		while (true) {
 			try  { 
-				    ServerSocket serverSocket = new ServerSocket(2003);
+				    ServerSocket serverSocket = new ServerSocket(9003);
 				    Socket clientSocket = serverSocket.accept();
 				    ObjectInputStream is = new ObjectInputStream(clientSocket.getInputStream());
 				    JSONObject request = (JSONObject) is.readObject();
